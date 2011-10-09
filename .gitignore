@@ -2,6 +2,7 @@
 .pydevproject
 .project
 .config
+.settings
 *.db
 *.log
 nohup.out
