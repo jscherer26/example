@@ -1,0 +1,10 @@
+Example application so I can learn about git, python, logging, unittests, qtpy4
+
+File Structure
+
+
+example.py is the main program
+
+/src - contains python source code
+/config - contains the configuration files
+/files - contains database and log files
