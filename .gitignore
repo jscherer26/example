@@ -1,0 +1,8 @@
+*.pyc
+.pydevproject
+.project
+.config
+*.db
+*.log
+nohup.out
+*.ignore
