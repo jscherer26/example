@@ -3,7 +3,8 @@
 .project
 .config
 .settings
+files/*
 *.db
 *.log
-nohup.out
 *.ignore
+nohup.out
