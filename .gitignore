@@ -4,6 +4,7 @@
 .config
 .settings
 files/*
+!.gitignore
 *.db
 *.log
 *.ignore

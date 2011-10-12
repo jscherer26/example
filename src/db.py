@@ -3,40 +3,37 @@ import sqlite3
 
 class DbSqlite3(object):
 
-    def __init__(self, parent, database = None):
+    def __init__(self, parent, dbFile):
 
         self.parent = parent
         self.parent.logger.info('__init__()')
-        self.database = None
+        self.dbFile = dbFile
 
         self.sqlConnection = None
         self.sqlCursor = None
-        
-        self.setDatabase(database)
-        self.initSqlCursor()
 
     def initSqlCursor(self):
 
-        if not os.path.exists(os.path.dirname(self.database)):
-            self.parent.logger.error('setDatabase() ... Error Path >>%s<< does not exist' % (os.path.dirname(self.database)))
+        if not os.path.exists(os.path.dirname(self.dbFile)):
+            self.parent.logger.error('setDbfile() ... Error Path >>%s<< does not exist' % (os.path.dirname(self.dbFile)))
             sys.exit(1)
 
-        existsDb = os.path.exists(self.database)
+        existsDb = os.path.exists(self.dbFile)
 
-        self.sqlConnection = sqlite3.connect(self.database)
+        self.sqlConnection = sqlite3.connect(self.dbFile)
         self.sqlCursor = self.sqlConnection.cursor()
 
         if not existsDb:
             self.createDbTables()
 
-    def setDatabase(self, database):
+    def setDbFile(self, dbFile):
 
-        self.parent.logger.debug('setDatabase() ... Set Database >>%s<<' % (database))
-        self.database = database
+        self.parent.logger.debug('setDbFile() ... Set Database File >>%s<<' % (dbFile))
+        self.dbFile = dbFile
 
     def createDbTables(self):
 
-        self.parent.logger.warning('createDbTables() ... Database >>%s<< does not exist ... creating it' % (os.path.basename(self.database)))
+        self.parent.logger.warning('createDbTables() ... Database >>%s<< does not exist ... creating it' % (os.path.basename(self.dbFile)))
         try:
             self.sqlCursor.execute("""
             CREATE TABLE example1 (

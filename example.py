@@ -30,6 +30,7 @@ class Example(object):
         self.logger = logging.getLogger('Example')
         self.logger.info('setup()')
         self.database = DbSqlite3(self, self.parser.get('db', 'database'))
+        self.database.initSqlCursor()
         self.app = QtGui.QApplication([])
         self.window = TestWindow(self)
 

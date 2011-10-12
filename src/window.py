@@ -9,7 +9,6 @@ class TestWindow(QtGui.QWidget):
         self.parent.logger.info('__init__()')
         self.initUI()
 
-
     def initUI(self):
 
         self.parent.logger.debug('initUI()')
@@ -25,7 +24,7 @@ class TestWindow(QtGui.QWidget):
         self.label.move(55, 40)
         self.comboBox.move(50, 60)
 
-        self.connect(self.comboBox, QtCore.SIGNAL('activated(QString)'), 
+        self.connect(self.comboBox, QtCore.SIGNAL('activated(QString)'),
             self.onActivated)
 
         self.checkBox = QtGui.QCheckBox('Add Windows', self)
@@ -33,12 +32,11 @@ class TestWindow(QtGui.QWidget):
         self.checkBox.move(10, 10)
 #        self.checkBox.toggle()
 
-        self.connect(self.checkBox, QtCore.SIGNAL('stateChanged(int)'), 
+        self.connect(self.checkBox, QtCore.SIGNAL('stateChanged(int)'),
             self.changeTitle)
 
         self.setGeometry(250, 200, 350, 250)
         self.setWindowTitle('QComboBox')
-
 
     def changeTitle(self, value):
       
@@ -53,8 +51,6 @@ class TestWindow(QtGui.QWidget):
             self.comboBox.addItem("Fedora")
             self.comboBox.addItem("Red Hat")
             self.comboBox.addItem("Gentoo")
-
-
 
     def onActivated(self, text):
       
