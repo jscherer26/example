@@ -8,3 +8,4 @@ example.py is the main program
 /src - contains python source code
 /config - contains the configuration files
 /files - contains database and log files
+/test - contains unittest files
