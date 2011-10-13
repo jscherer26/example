@@ -1,6 +1,5 @@
 ## {{{ http://code.activestate.com/recipes/577871/ (r1)
-import sys
-import time
+import sys, time, logging
 
 class ProgressBar(object):
     """ProgressBar class holds the options of the progress bar.
@@ -14,11 +13,10 @@ class ProgressBar(object):
         format  Format
         incremental
     """
-    def __init__(self, parent, start = 0, end = 10, width = 12, fill = '=', blank = '.', format = '[%(fill)s>%(blank)s] %(progress)s%%', incremental = True):
+    def __init__(self, start = 0, end = 10, width = 12, fill = '=', blank = '.', format = '[%(fill)s>%(blank)s] %(progress)s%%', incremental = True):
         super(ProgressBar, self).__init__()
-        
-        self.parent = parent
-        self.parent.logger.info('__init__()')
+        self.logger = logging.getLogger('root')
+        self.logger.info('__init__()')
         self.start = start
         self.end = end
         self.width = width
@@ -30,7 +28,7 @@ class ProgressBar(object):
         self.reset()
 
     def __add__(self, increment):
-        self.parent.logger.debug('__add__() ... Increment >>%s<<' % (increment))
+        self.logger.debug('__add__() ... Increment >>%s<<' % (increment))
         increment = self._get_progress(increment)
         if 100 > self.progress + increment:
             self.progress += increment
@@ -39,7 +37,7 @@ class ProgressBar(object):
         return self
 
     def __str__(self):
-        self.parent.logger.debug('__str__()')
+        self.logger.debug('__str__()')
         progressed = int(self.progress / self.step) #fix
         fill = progressed * self.fill
         blank = (self.width - progressed) * self.blank
@@ -48,11 +46,11 @@ class ProgressBar(object):
     __repr__ = __str__
 
     def _get_progress(self, increment):
-        self.parent.logger.debug('_get_progress() ... Increment >>%s<<' % (increment))
+        self.logger.debug('_get_progress() ... Increment >>%s<<' % (increment))
         return float(increment * 100) / self.end
 
     def reset(self):
-        self.parent.logger.debug('reset()')
+        self.logger.debug('reset()')
         """Resets the current progress to the start point"""
         self.progress = self._get_progress(self.start)
         return self

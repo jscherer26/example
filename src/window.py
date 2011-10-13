@@ -1,17 +1,18 @@
+import logging
 from PyQt4 import QtGui, QtCore
 
 class TestWindow(QtGui.QWidget):
   
-    def __init__(self, parent):
+    def __init__(self):
         super(TestWindow, self).__init__()
 
-        self.parent = parent
-        self.parent.logger.info('__init__()')
+        self.logger = logging.getLogger('root')
+        self.logger.info('__init__()')
         self.initUI()
 
     def initUI(self):
 
-        self.parent.logger.debug('initUI()')
+        self.logger.debug('initUI()')
         self.label = QtGui.QLabel("Ubuntu", self)
 
         self.comboBox = QtGui.QComboBox(self)
@@ -40,7 +41,7 @@ class TestWindow(QtGui.QWidget):
 
     def changeTitle(self, value):
       
-        self.parent.logger.debug('changeTitle() ... Title >>%s<<' % (value))
+        self.logger.debug('changeTitle() ... Title >>%s<<' % (value))
         
         if self.checkBox.isChecked():
             self.comboBox.addItem("Windows")
@@ -54,7 +55,7 @@ class TestWindow(QtGui.QWidget):
 
     def onActivated(self, text):
       
-        self.parent.logger.debug('onActivated() ... Activated >>%s<< ... ' % (text))
+        self.logger.debug('onActivated() ... Activated >>%s<< ... ' % (text))
         self.label.setText(text)
         self.label.adjustSize()
 

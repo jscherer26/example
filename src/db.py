@@ -1,12 +1,13 @@
 import sys, os
+import logging
 import sqlite3
 
 class DbSqlite3(object):
 
-    def __init__(self, parent, dbFile):
+    def __init__(self, dbFile):
 
-        self.parent = parent
-        self.parent.logger.info('__init__()')
+        self.logger = logging.getLogger('root')
+        self.logger.info('__init__()')
         self.dbFile = dbFile
 
         self.sqlConnection = None
@@ -15,7 +16,7 @@ class DbSqlite3(object):
     def initSqlCursor(self):
 
         if not os.path.exists(os.path.dirname(self.dbFile)):
-            self.parent.logger.error('setDbfile() ... Error Path >>%s<< does not exist' % (os.path.dirname(self.dbFile)))
+            self.logger.error('setDbfile() ... Error Path >>%s<< does not exist' % (os.path.dirname(self.dbFile)))
             sys.exit(1)
 
         existsDb = os.path.exists(self.dbFile)
@@ -28,12 +29,12 @@ class DbSqlite3(object):
 
     def setDbFile(self, dbFile):
 
-        self.parent.logger.debug('setDbFile() ... Set Database File >>%s<<' % (dbFile))
+        self.logger.debug('setDbFile() ... Set Database File >>%s<<' % (dbFile))
         self.dbFile = dbFile
 
     def createDbTables(self):
 
-        self.parent.logger.warning('createDbTables() ... Database >>%s<< does not exist ... creating it' % (os.path.basename(self.dbFile)))
+        self.logger.warning('createDbTables() ... Database >>%s<< does not exist ... creating it' % (os.path.basename(self.dbFile)))
         try:
             self.sqlCursor.execute("""
             CREATE TABLE example1 (
@@ -59,21 +60,21 @@ class DbSqlite3(object):
             END;
             """)
         except Exception, err:
-            self.parent.logger.exception('example.run()')
+            self.logger.exception('example.run()')
 
 
     def insertSql(self, message):
 
-        self.parent.logger.debug('insertSQL() .. Insert Message >>%s<<' % (message))
+        self.logger.debug('insertSQL() .. Insert Message >>%s<<' % (message))
         self.sqlCursor.execute('INSERT INTO example1 (message) VALUES (?)', (message,))
 
     def commitSql(self):
 
-        self.parent.logger.debug('commitSQL()')
+        self.logger.debug('commitSQL()')
         self.sqlConnection.commit()
 
     def closeHandle(self):
 
-        self.parent.logger.debug('closeHandle()')
+        self.logger.debug('closeHandle()')
         self.sqlConnection.close()
 

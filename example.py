@@ -1,13 +1,13 @@
 #!\usr\bin\python
 
-import sys, os 
+import sys, time
+import traceback
 import logging.config
-import serial, smtplib, datetime, time, traceback
 
 from ConfigParser import SafeConfigParser
+from PyQt4 import QtGui
 from src.progressbar import ProgressBar
 from src.db import DbSqlite3
-from PyQt4 import QtGui, QtCore
 from src.window import TestWindow
 
 class Example(object):
@@ -27,12 +27,12 @@ class Example(object):
         self.parser = SafeConfigParser()
         self.parser.read('config/application.conf')
         logging.config.fileConfig(self.parser.get('logging', 'config'))
-        self.logger = logging.getLogger('Example')
+        self.logger = logging.getLogger('root')
         self.logger.info('setup()')
-        self.database = DbSqlite3(self, self.parser.get('db', 'database'))
+        self.database = DbSqlite3(self.parser.get('db', 'database'))
         self.database.initSqlCursor()
         self.app = QtGui.QApplication([])
-        self.window = TestWindow(self)
+        self.window = TestWindow()
 
     def run(self):
         self.logger.debug('run()')
@@ -57,7 +57,7 @@ class Example(object):
                 elif answer == '7':
                     pass
                 elif answer == '8':
-                    p = ProgressBar(self, **custom_options)
+                    p = ProgressBar(** custom_options)
                     for i in range(10):
                         print p + 1
                 answer = raw_input("Enter one of the following\r\n\r\n1 -- Window\r\n2 -- database insert\r\n3 -- database commit\r\n4 -- database close handle\r\n5 -- unknown\r\n6 -- unknown\r\n7 -- unknown\r\n8 -- progressbar\r\n9 -- quit\r\n\r\n.....? ")

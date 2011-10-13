@@ -10,7 +10,7 @@ class SetDatabaseTestCase(unittest.TestCase):
         self.logger.level = logging.CRITICAL
         self.logger.addHandler(logging.StreamHandler(sys.stdout))
         self.dbTestFile = '../files/test.db'
-        self.database = DbSqlite3(self, self.dbTestFile)
+        self.database = DbSqlite3(self.dbTestFile)
         self.database.initSqlCursor()
     def tearDown(self):
         self.database.closeHandle()
