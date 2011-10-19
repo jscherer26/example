@@ -2,10 +2,10 @@
 
 import sys, time
 import traceback
+import yaml
 import logging.config
 import loggingHandlers
 
-from ConfigParser import SafeConfigParser
 from PyQt4 import QtGui
 from src.progressbar import ProgressBar
 from src.db import DbSqlite3
@@ -17,7 +17,7 @@ class Example(object):
 
         self.exceptionCount = 0
 
-        self.parser = None
+        self.config = None
         self.logger = None
         self.database = None
         self.app = None
@@ -25,13 +25,12 @@ class Example(object):
 
     def setup(self):
 
-        self.parser = SafeConfigParser()
-        self.parser.read('config/application.conf')
+        self.config = yaml.load(open('config/application.yaml', 'r'))
         logging.customhandlers = loggingHandlers
-        logging.config.fileConfig(self.parser.get('logging', 'config'))
+        logging.config.dictConfig(yaml.load(open(self.config['logging']['config'], 'r')))
         self.logger = logging.getLogger('root')
         self.logger.info('setup()')
-        self.database = DbSqlite3(self.parser.get('db', 'database'))
+        self.database = DbSqlite3(self.config['db']['database'])
         self.database.initSqlCursor()
         self.app = QtGui.QApplication([])
         self.window = TestWindow()

@@ -1,0 +1,57 @@
+version:
+  1
+formatters:
+  simple:
+    format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    datefmt: '%Y-%m-%d %H:%M:%S'
+  complex:
+    format: '%(asctime)s - %(name)s - %(levelname)s - %(module)s: %(lineno)d - %(message)s'
+handlers:
+  console:
+    class: logging.StreamHandler
+    formatter: simple
+    level: DEBUG
+    stream: ext://sys.stdout
+  debug:
+    class: logging.handlers.RotatingFileHandler
+    level: DEBUG
+    formatter: complex
+    filename: ./files/example.debug.log
+    mode: a
+    maxBytes: 8388608
+    backupCount: 10
+  error:
+    class: logging.handlers.RotatingFileHandler
+    level: ERROR
+    formatter: complex
+    filename: ./files/example.error.log
+    mode: a
+    maxBytes: 8388608
+    backupCount: 10
+  email:
+    class: logging.handlers.SMTPHandler
+    level: ERROR
+    formatter: complex
+    mailhost: 
+      - smtp.comcast.net
+      - 587 
+    fromaddr: southfork.scherer@comcast.net
+    toaddrs: jscherer26@gmail.com
+    subject: Southfork Alarm Notice
+    credentials: 
+      - southfork.scherer
+      - Cc11012003
+  buffered:
+    class: logging.customhandlers.BufferedHandler
+    level: DEBUG
+    formatter: complex
+    capacity: 10
+    flushLevel: ERROR
+    target: errors
+loggers:
+  err:
+    level: ERROR
+    handlers: [error, ]
+root:
+  level: NOTSET
+  handlers: [debug, error, email]

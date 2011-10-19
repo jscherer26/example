@@ -1,0 +1,4 @@
+logging:
+  config: config/logging.yaml
+db:
+  database: files/example.db
