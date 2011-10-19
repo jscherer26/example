@@ -3,6 +3,7 @@
 import sys, time
 import traceback
 import logging.config
+import loggingHandlers
 
 from ConfigParser import SafeConfigParser
 from PyQt4 import QtGui
@@ -26,6 +27,7 @@ class Example(object):
 
         self.parser = SafeConfigParser()
         self.parser.read('config/application.conf')
+        logging.customhandlers = loggingHandlers
         logging.config.fileConfig(self.parser.get('logging', 'config'))
         self.logger = logging.getLogger('root')
         self.logger.info('setup()')
