@@ -6,17 +6,18 @@ formatters:
 handlers:
   error:
     class: logging.FileHandler
-    level: ERROR
     formatter: complex
+    level: ERROR
     filename: ./files/example.error.log
     mode: a
   history:
     class: logging.handlers.HistoryHandler
-    level: DEBUG
     formatter: complex
-    capacity: 15
+    level: DEBUG
     flushLevel: ERROR
     target: error
-root:
-  level: NOTSET
-  handlers: [history]
+    capacity: 15
+loggers:
+  root:
+    level: NOTSET
+    handlers: [history]
