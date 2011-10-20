@@ -2,10 +2,10 @@ version:
   1
 formatters:
   simple:
-    format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    format: '[%(asctime)s] (%(filename)20s:%(lineno)4s) [%(levelname)8s] - %(message)s '
     datefmt: '%Y-%m-%d %H:%M:%S'
   complex:
-    format: '%(asctime)s - %(name)s - %(levelname)s - %(module)s: %(lineno)d - %(message)s'
+    format: '[%(asctime)s] (%(filename)20s:%(lineno)4s) [%(levelname)8s] - %(message)s '
 handlers:
   console:
     class: logging.StreamHandler
@@ -21,37 +21,43 @@ handlers:
     maxBytes: 8388608
     backupCount: 10
   error:
-    class: logging.handlers.RotatingFileHandler
+    class: logging.FileHandler
     level: ERROR
     formatter: complex
     filename: ./files/example.error.log
     mode: a
-    maxBytes: 8388608
-    backupCount: 10
   email:
     class: logging.handlers.SMTPHandler
     level: ERROR
     formatter: complex
     mailhost: 
       - smtp.comcast.net
-      - 587 
+      - 25 
     fromaddr: southfork.scherer@comcast.net
     toaddrs: jscherer26@gmail.com
     subject: Southfork Alarm Notice
     credentials: 
       - southfork.scherer
       - Cc11012003
-  buffered:
-    class: logging.customhandlers.BufferedHandler
+    secure: True
+  history:
+    class: logging.handlers.HistoryHandler
     level: DEBUG
     formatter: complex
-    capacity: 10
+    capacity: 15
     flushLevel: ERROR
-    target: errors
+    target: error
+  memory:
+    class: logging.handlers.MemoryHandler
+    level: DEBUG
+    formatter: complex
+    capacity: 25
+    flushLevel: ERROR
+    target: error
 loggers:
   err:
     level: ERROR
     handlers: [error, ]
 root:
   level: NOTSET
-  handlers: [debug, error, email]
+  handlers: [debug, email, history]

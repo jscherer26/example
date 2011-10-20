@@ -2,10 +2,10 @@
 
 import sys, time
 import traceback
-import yaml
 import logging.config
-import loggingHandlers
+import yaml
 
+from src.myLoggingHandlers import HistoryHandler
 from PyQt4 import QtGui
 from src.progressbar import ProgressBar
 from src.db import DbSqlite3
@@ -26,7 +26,7 @@ class Example(object):
     def setup(self):
 
         self.config = yaml.load(open('config/application.yaml', 'r'))
-        logging.customhandlers = loggingHandlers
+        logging.handlers.HistoryHandler = HistoryHandler
         logging.config.dictConfig(yaml.load(open(self.config['logging']['config'], 'r')))
         self.logger = logging.getLogger('root')
         self.logger.info('setup()')
