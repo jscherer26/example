@@ -1,4 +1,4 @@
 logging:
-  config: config/logging.yaml
+  config: config/logging_history.yaml
 db:
   database: files/example.db

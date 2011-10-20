@@ -1,0 +1,22 @@
+version:
+  1
+formatters:
+  complex:
+    format: '[%(asctime)s] (%(filename)20s:%(lineno)4s) [%(levelname)8s] - %(message)s '
+handlers:
+  error:
+    class: logging.FileHandler
+    level: ERROR
+    formatter: complex
+    filename: ./files/example.error.log
+    mode: a
+  history:
+    class: logging.handlers.HistoryHandler
+    level: DEBUG
+    formatter: complex
+    capacity: 15
+    flushLevel: ERROR
+    target: error
+root:
+  level: NOTSET
+  handlers: [history]

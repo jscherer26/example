@@ -1,10 +1,10 @@
 #!\usr\bin\python
 
-import sys, time
-import traceback
+import sys, time, cStringIO
 import logging.config
 import yaml
 
+import src.myTraceback as traceback
 from src.myLoggingHandlers import HistoryHandler
 from PyQt4 import QtGui
 from src.progressbar import ProgressBar
@@ -52,7 +52,8 @@ class Example(object):
                 elif answer == '4':
                     self.database.closeHandle()
                 elif answer == '5':
-                    pass
+                    (x, y) = (5, 0)
+                    a = x / y
                 elif answer == '6':
                     pass
                 elif answer == '7':
@@ -61,25 +62,14 @@ class Example(object):
                     p = ProgressBar(** custom_options)
                     for i in range(10):
                         print p + 1
-                answer = raw_input("Enter one of the following\r\n\r\n1 -- Window\r\n2 -- database insert\r\n3 -- database commit\r\n4 -- database close handle\r\n5 -- unknown\r\n6 -- unknown\r\n7 -- unknown\r\n8 -- progressbar\r\n9 -- quit\r\n\r\n.....? ")
+                answer = raw_input("\r\n\r\nEnter one of the following\r\n\r\n1 -- Window\r\n2 -- database insert\r\n3 -- database commit\r\n4 -- database close handle\r\n5 -- Exception\r\n6 -- unknown\r\n7 -- unknown\r\n8 -- progressbar\r\n9 -- quit\r\n\r\n.....? ")
             self.teardown()
-        except Exception, err:
-            self.logger.exception('run() ... Exception')
-            return 1
+        except Exception:
+            self.logger.critical('run() ... Exception \r\n\r\n %s', traceback.format_exc(with_vars = True))
 
     def teardown(self):
         self.logger.info('teardown() ... Quit')
         print "\r\n Exiting Gracefully"
-
-    def handleException(self):
-        self.logger.debug('handleException()')
-        self.exceptionCount += 1
-        trace = traceback.format_exc()
-        if self.exceptionCount > 9:
-            self.logger.critical('example.py stopped with too many exceptions %s', '%s' % (self.exceptionCount, trace))
-            sys.exit(2)
-        else:
-            self.logger.critical('example.py experienced an unexpected error', '%s' % (trace))
 
 if __name__ == "__main__":
 
