@@ -55,9 +55,9 @@ handlers:
     target: error
     capacity: 15
 loggers:
-  root:
-    level: NOTSET
-    handlers: [debug, email, history]
   err:
     level: ERROR
     handlers: [console, error]
+root:
+  level: NOTSET
+  handlers: [debug, email, history]

@@ -18,6 +18,9 @@ handlers:
     target: error
     capacity: 15
 loggers:
-  root:
-    level: NOTSET
-    handlers: [history]
+  err:
+    level: ERROR
+    handlers: [error]
+root:
+  level: NOTSET
+  handlers: [history]
