@@ -22,6 +22,7 @@ class Example(object):
         self.database = None
         self.app = None
         self.window = None
+        self.progressBar = None
 
     def setup(self):
 
@@ -30,15 +31,16 @@ class Example(object):
         logging.config.dictConfig(yaml.load(open(self.config['logging']['config'], 'r')))
         self.logger = logging.getLogger('root')
         self.logger.info('setup()')
+
         self.database = DbSqlite3(self.config['db']['database'])
         self.database.initSqlCursor()
         self.app = QtGui.QApplication([])
         self.window = TestWindow()
+        custom_options = {'end': 10, 'width': 10, 'fill': '#', 'format': '%(progress)s%% [%(fill)s%(blank)s]'}
+        self.progressBar = ProgressBar(** custom_options)
 
     def run(self):
-        self.logger.debug('run()')
         answer = ''
-        custom_options = {'end': 10, 'width': 10, 'fill': '#', 'format': '%(progress)s%% [%(fill)s%(blank)s]'}
         try:
             while not answer == '9':
                 time.sleep(1)
@@ -46,7 +48,7 @@ class Example(object):
                     self.window.show()
                     self.app.exec_()
                 elif answer == '2':
-                    self.database.insertSql('2 was pressed')
+                    self.database.insertSql('insert into database')
                 elif answer == '3':
                     self.database.commitSql()
                 elif answer == '4':
@@ -55,14 +57,15 @@ class Example(object):
                     (x, y) = (5, 0)
                     a = x / y
                 elif answer == '6':
-                    pass
+                    self.logger.error('run() ... Error')
                 elif answer == '7':
-                    pass
+                    self.logger.warning('run() ... Warning')
                 elif answer == '8':
-                    p = ProgressBar(** custom_options)
-                    for i in range(10):
-                        print p + 1
-                answer = raw_input("\r\n\r\nEnter one of the following\r\n\r\n1 -- Window\r\n2 -- database insert\r\n3 -- database commit\r\n4 -- database close handle\r\n5 -- Exception\r\n6 -- unknown\r\n7 -- unknown\r\n8 -- progressbar\r\n9 -- quit\r\n\r\n.....? ")
+                    if self.progressBar == 100:
+                        self.progressBar.reset()
+                    print self.progressBar + 1
+                answer = raw_input("\r\n\r\nEnter one of the following\r\n\r\n1 -- Window\r\n2 -- database insert\r\n3 -- database commit\r\n4 -- database close handle\r\n5 -- Critical\r\n6 -- Error\r\n7 -- Warning\r\n8 -- progressbar\r\n9 -- quit\r\n\r\n.....? ")
+                self.logger.debug('run() ... selection >>%s<<' % (answer))
             self.teardown()
         except Exception:
             self.logger.critical('run() ... Exception \r\n\r\n %s', traceback.format_exc(with_vars = True))

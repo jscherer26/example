@@ -5,16 +5,18 @@ formatters:
     format: '[%(asctime)s] (%(filename)20s:%(lineno)4s) [%(levelname)8s] - %(message)s '
 handlers:
   error:
-    class: logging.FileHandler
+    class: logging.handlers.RotatingFileHandler
     formatter: complex
-    level: ERROR
+    level: CRITICAL
     filename: ./files/example.error.log
     mode: a
+    maxBytes: 5000
+    backupCount: 3
   history:
     class: logging.handlers.HistoryHandler
     formatter: complex
     level: DEBUG
-    flushLevel: ERROR
+    flushLevel: CRITICAL
     target: error
     capacity: 15
 loggers:

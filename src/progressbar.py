@@ -37,7 +37,6 @@ class ProgressBar(object):
         return self
 
     def __str__(self):
-        self.logger.debug('__str__()')
         progressed = int(self.progress / self.step) #fix
         fill = progressed * self.fill
         blank = (self.width - progressed) * self.blank
@@ -46,7 +45,7 @@ class ProgressBar(object):
     __repr__ = __str__
 
     def _get_progress(self, increment):
-        self.logger.debug('_get_progress() ... Increment >>%s<<' % (increment))
+#        self.logger.debug('_get_progress() ... Increment >>%s<<' % (increment))
         return float(increment * 100) / self.end
 
     def reset(self):

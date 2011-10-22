@@ -16,26 +16,60 @@ handlers:
     class: logging.handlers.RotatingFileHandler
     formatter: complex
     level: DEBUG
-    filename: ./files/example.debug.log
+    filename: ./files/example.10.debug.log
     mode: a
-    maxBytes: 8388608
-    backupCount: 10
+    maxBytes: 25000
+    backupCount: 3
+  info:
+    class: logging.handlers.RotatingFileHandler
+    formatter: complex
+    level: INFO
+    filename: ./files/example.20.info.log
+    mode: a
+    maxBytes: 25000
+    backupCount: 3
+  warning:
+    class: logging.handlers.RotatingFileHandler
+    formatter: complex
+    level: WARNING
+    filename: ./files/example.30.warning.log
+    mode: a
+    maxBytes: 5000
+    backupCount: 6
   error:
-    class: logging.FileHandler
+    class: logging.handlers.RotatingFileHandler
     formatter: complex
     level: ERROR
-    filename: ./files/example.error.log
+    filename: ./files/example.40.error.log
     mode: a
+    maxBytes: 5000
+    backupCount: 6
+  critical:
+    class: logging.handlers.RotatingFileHandler
+    formatter: complex
+    level: CRITICAL
+    filename: ./files/example.50.critical.log
+    mode: a
+    maxBytes: 5000
+    backupCount: 6
+  custom:
+    class: logging.handlers.RotatingFileHandler
+    formatter: complex
+    level: CRITICAL
+    filename: ./files/example.60.custom.log
+    mode: a
+    maxBytes: 5000
+    backupCount: 6
   email:
     class: logging.handlers.SMTPHandler
     formatter: complex
-    level: ERROR
+    level: CRITICAL
     mailhost: 
       - smtp.comcast.net
       - 25 
     fromaddr: southfork.scherer@comcast.net
     toaddrs: jscherer26@gmail.com
-    subject: Southfork Alarm Notice
+    subject: Example Program Critical Log
     credentials: 
       - southfork.scherer
       - Cc11012003
@@ -51,13 +85,13 @@ handlers:
     class: logging.handlers.HistoryHandler
     formatter: complex
     level: DEBUG
-    flushLevel: ERROR
-    target: error
+    flushLevel: CRITICAL
+    target: custom
     capacity: 15
 loggers:
   err:
     level: ERROR
-    handlers: [console, error]
+    handlers: [error]
 root:
   level: NOTSET
-  handlers: [debug, email, history]
+  handlers: [console, debug, info, warning, error, critical, history, email ]

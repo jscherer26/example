@@ -12,7 +12,6 @@ class TestWindow(QtGui.QWidget):
 
     def initUI(self):
 
-        self.logger.debug('initUI()')
         self.label = QtGui.QLabel("Ubuntu", self)
 
         self.comboBox = QtGui.QComboBox(self)
@@ -56,6 +55,7 @@ class TestWindow(QtGui.QWidget):
     def onActivated(self, text):
       
         self.logger.debug('onActivated() ... Activated >>%s<< ... ' % (text))
+
         self.label.setText(text)
         self.label.adjustSize()
 
